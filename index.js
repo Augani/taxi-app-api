@@ -1,28 +1,36 @@
-var app = require('express')();
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
+const express = require('express');
+const http = require('http')
+const socketio = require('socket.io');
 
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
-});
+const app = express();
+const server = http.Server(app);
+const websocket = socketio(server);
+const mongoose = require('mongoose');
+// const connectionString = 'mongodb+srv://nii:0277427898@taxi-lvqnv.mongodb.net/test?retryWrites=true&w=majority'
+const connectionString = 'mongodb://localhost:27017/taxi';
+const connector = mongoose.connect(connectionString,{useNewUrlParser: true});
+connector.then(r=>{
+  console.log('connected');
+}).catch(e=>{
+  console.log(e);
+})
 
-io.on('connection', function(socket){
-    console.log(socket);
-  console.log('a user connected');
-  io.emit('chat message', "A user connected");
-  socket.on('chat message', function(msg){
-    socket.broadcast.emit('chat message', msg);
-  });
-  socket.on('chat message', function(msg){
-    console.log('message: ' + msg);
-  });
-  socket.on('disconnect', function(i){
-    console.log('user disconnected', i);
-    io.emit('chat message', "A user disconnected");
-  });
-});
+const login = require('./api/auth/login');
+
+// app.get('/', function(req, res){
+//   res.sendFile(__dirname + '/index.html');
+// });
+
+app.use('/api', login);
 
 
-http.listen(3232, function(){
+server.listen(3232, function(){
   console.log('listening on *:3000');
+});
+
+console.log(websocket)
+
+// The event will be called when a client is connected.
+websocket.on('connection', (socket) => {
+  console.log('A client just joined on', socket.id);
 });
