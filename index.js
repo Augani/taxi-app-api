@@ -23,8 +23,8 @@ const login = require('./api/auth/login');
 
 app.use('/api', login);
 
-
-server.listen(3232, function(){
+const PORt = 3232 || process.env.PORT;
+server.listen(PORt, function(){
   console.log('listening on *:3000');
 });
 
