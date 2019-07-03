@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-const PORt = 3232 || process.env.PORT;
+const PORt = process.env.PORT || 3232;
 var server = app.listen(PORt);
 var io = require('socket.io').listen(server);
 
