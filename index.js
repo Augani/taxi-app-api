@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 const mongoose = require('mongoose');
- const connectionString = 'mongodb+srv://nii:0277427898@taxi-lvqnv.mongodb.net/test?retryWrites=true&w=majority'
+const connectionString = 'mongodb+srv://nii:0277427898@taxi-lvqnv.mongodb.net/taxi?retryWrites=true&w=majority'
 //  const connectionString = 'mongodb://localhost:27017/taxi';
 const connector = mongoose.connect(connectionString,{useNewUrlParser: true});
 connector.then(r=>{

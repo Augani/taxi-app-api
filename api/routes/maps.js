@@ -34,4 +34,49 @@ router.post('/autocomp', function (req, res) {
   })
 })
 
+
+router.post('/getfare', function(req, res){
+    var data = req.body;
+
+    
+})
+
+
+router.post('/getCountry', function(req,res){
+    var data = req.body;
+
+    googleMapsClient.reverseGeocode(data, (err, resp)=>{
+        if(err){
+            res.json({
+                code: 201,
+                message: err
+            })
+        }else{
+            res.json({
+                code: 200,
+                data: resp
+            })
+        }
+    })
+})
+
+
+router.post('/getDirection', function(req,res){
+    var data = req.body;
+    data.departure_time = new Date();
+    googleMapsClient.directions(data, (err, resp)=>{
+        if(err){
+            res.json({
+                code: 201,
+                message: err
+            })
+        }else{
+            res.json({
+                code: 200,
+                data: resp
+            })
+        }
+    })
+})
+
 module.exports = router;
