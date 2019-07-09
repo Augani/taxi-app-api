@@ -7,7 +7,7 @@ const key = "489e85b1";
 const testKey = "e6942459";
 const testSecret = "uCs1TfULvpAQjVEp";
 
-router.get('/login', function (req, res) {
+router.post('/login', function (req, res) {
   var data = req.body;
   var s = {
     api_key: testKey,
@@ -31,7 +31,7 @@ router.get('/login', function (req, res) {
 })
 
 
-router.get('/verify', function (req, res) {
+router.post('/verify', function (req, res) {
   var data = req.body;
   var s = {
     api_key: key,
