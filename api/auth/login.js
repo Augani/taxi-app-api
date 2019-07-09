@@ -10,12 +10,13 @@ const testSecret = "uCs1TfULvpAQjVEp";
 router.post('/login', function (req, res) {
   var data = req.body;
   var s = {
-    api_key: testKey,
-    api_secret: testSecret,
+  api_key: key,
+    api_secret: secret,
     number: data.phone,
-    brand: bcTaxi
+    brand: "bcTaxi",
+    country: "GH"
   }
-  axios.get('https://api.nexmo.com/verify/json', s)
+  axios.get('https://api.nexmo.com/verify/json', {params:s})
   .then(function (response) {
    res.json({
      code: 200,

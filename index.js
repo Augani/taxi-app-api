@@ -23,7 +23,7 @@ const maps = require('./api/routes/maps')
 
 
 
-app.use('/api/login', login);
+app.use('/api/auth', login);
 app.use('/api/maps', maps);
 
 
