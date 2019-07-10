@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const login = require('./api/auth/login');
 const maps = require('./api/routes/maps')
+const user = require('./api/routes/user');
 
 // app.get('/', function(req, res){
 //   res.sendFile(__dirname + '/index.html');
@@ -25,6 +26,7 @@ const maps = require('./api/routes/maps')
 
 app.use('/api/auth', login);
 app.use('/api/maps', maps);
+app.use('/api/user', user);
 
 
 // server.listen(PORt, function(){

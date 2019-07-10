@@ -34,7 +34,7 @@ function insert (name,data,cb){
 
 function update(name,cond, data, cb){
     const coll = db.collection(name);
-    collection.updateOne({phone: cond}, {'$set': data},cb);
+    coll.updateOne({phone: cond}, {'$set': data},cb);
 }
 
 router.post('/register/', (req,res)=>{
