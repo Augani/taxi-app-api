@@ -22,7 +22,7 @@ mongo.connect(url, (err, client) => {
 
 
 
-  function find (name, query, cb) {
+function find (name, query, cb) {
     const coll = db.collection(name);
     coll.find(query).toArray(cb)
 }

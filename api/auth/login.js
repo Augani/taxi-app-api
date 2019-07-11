@@ -29,21 +29,25 @@ router.post('/login', function (req, res) {
     api_secret: secret,
     number: data.phone,
     brand: "bcTaxi",
-    country: "GH"
+    country: "US",
+    code_length: 4
   }
+  var r;
   axios.get('https://api.nexmo.com/verify/json', {params:s})
   .then(function (response) {
-   res.json({
-     code: 200,
-     data: response
-   })
+    r = response;
   })
   .catch(function (error) {
+    // res.json({
+    //   code: 201,
+    //   error: error
+    // })
+  }).then(()=>{
     res.json({
-      code: 201,
-      error: error
+      code: 200,
+      data: r.data
     })
-  });
+  })
 })
 
 
@@ -54,11 +58,12 @@ router.post('/verify', function (req, res) {
     api_key: key,
     api_secret: secret,
     request_id: data.id,
-    code: data.code,
-    code_length: 4
+    code: data.code
+    
   }
   axios.get('https://api.nexmo.com/verify/check/json', s)
   .then(function (response) {
+    
     find('users',{phone: data.phone}, (err,doc)=>{
       if(err){
         insert('users', {phone: data.phone}, (err,data)=>{
