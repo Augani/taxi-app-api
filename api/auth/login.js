@@ -61,7 +61,7 @@ router.post('/verify', function (req, res) {
     code: data.code
     
   }
-  axios.get('https://api.nexmo.com/verify/check/json', s)
+  axios.get('https://api.nexmo.com/verify/check/json', {params:s})
   .then(function (response) {
     
     find('users',{phone: data.phone}, (err,doc)=>{
