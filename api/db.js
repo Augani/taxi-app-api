@@ -21,19 +21,22 @@
 // module.exports = connection;
 
 const mongo = require('mongodb').MongoClient;
-const url = 'mongodb+srv://nii:0277427898@taxi-lvqnv.mongodb.net/taxi?retryWrites=true&w=majority';
+const urlTest = "mongodb://localhost:27017/taxi";
 
-const DB = mongo.connect(url, (err, client) => {
+const DB = mongo.connect(urlTest, (err, client) => {
     if (err) {
       console.error(err)
       return
     }
     //...
-    console.log('connected');
+    console.log('db connected');
 
     return client;
     
+    
   })
+
+  
 
  
 

@@ -1,25 +1,14 @@
 const {API_KEY} = require('../config')
 var express = require('express');
 var router = express.Router();
+const DB = require('../db');
 const Fares  = require('../models/fare');
 const googleMapsClient = require('@google/maps').createClient({
     key: "AIzaSyAzb_EziNyxtjF5QChY7QVsvTXdpNoJBmI"
   });
-  const mongo = require('mongodb').MongoClient;
-const url = 'mongodb+srv://nii:0277427898@taxi-lvqnv.mongodb.net/taxi?retryWrites=true&w=majority';
-var db;
-mongo.connect(url, (err, client) => {
-    if (err) {
-      console.error(err)
-      return
-    }
-    //...
-    console.log('connected');
 
-    db =  client.db('test');
-    
-  })
 
+var db = DB;
 
 
   function find (name, query, cb) {
