@@ -48,11 +48,17 @@ router.post('/uploadImage',upload.single('fileData'), (req, res,next) => {
   }
  });
     client.upload(req.file.path, { onProgress }, {}, token)
-  .then(res => {
-    console.log('success: ', res)
+  .then(results => {
+   res.json({
+       code: 201,
+       data: results
+   });
   })
   .catch(err => {
-    console.log(err)
+   res.json({
+       code: 301,
+       error: err
+   });
 });
 
 });
