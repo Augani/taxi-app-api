@@ -56,6 +56,7 @@ router.post('/verify', function (req, res) {
       findit('users',{phone: req.body.phone}, (err,doc)=>{
         if(!doc[0].phone){
           insert('users', {phone: req.body.phone}, (err,data)=>{
+            console.log(data);
             if(data){
               res.json({
                 code: 200,
