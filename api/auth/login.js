@@ -41,6 +41,7 @@ router.post('/login', function (req, res) {
 
 router.post('/verify', function (req, res) {
   var data = req.body;
+  console.log(data);
   var s = {
     api_key: key,
     api_secret: secret,
