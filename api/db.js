@@ -4,7 +4,7 @@ const stagingurl = "'mongodb+srv://nii:0277427898@taxi-lvqnv.mongodb.net/taxi?re
 
 
 exports.findit = (name, query, cb)=>{
-    mongo.connect(stagingurl, (err, client) => {
+    mongo.connect(urlTest, (err, client) => {
         var db = client.db('taxi');
         if (err) {
             return cb("err", null);
@@ -17,7 +17,7 @@ exports.findit = (name, query, cb)=>{
 }
 
 exports.insert = (name, data, cb)=> {
-    mongo.connect(stagingurl, (err, client) => {
+    mongo.connect(urlTest, (err, client) => {
         var db = client.db('taxi');
         if (err) {
             return cb("err", null);
@@ -30,7 +30,7 @@ exports.insert = (name, data, cb)=> {
 }
 
 exports.update = (name, cond, data, cb)=> {
-    mongo.connect(stagingurl, (err, client) => {
+    mongo.connect(urlTest, (err, client) => {
         var db = client.db('taxi');
         if (err) {
             return cb("err", null);

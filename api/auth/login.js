@@ -52,24 +52,24 @@ router.post('/verify', function (req, res) {
   }
   axios.get('https://api.nexmo.com/verify/check/json', {params:s})
   .then(function (response) {
-    console.log(response.data);
-    if(response.data.status == "0"){
-      findit('users',{phone: data.phone}, (err,doc)=>{
-        
-        if(!doc.length){
-          insert('users', {phone: data.phone}, (err,data)=>{
+    if(response.data.price){
+      findit('users',{phone: req.body.phone}, (err,doc)=>{
+        if(!doc[0].phone){
+          insert('users', {phone: req.body.phone}, (err,data)=>{
             if(data){
               res.json({
                 code: 200,
                 data: data
               })
             }else{
-              res.json({
-                code: 205,
-                data: doc,
-                users: true
-              })
+             
             }
+          })
+        }else{
+          res.json({
+            code: 205,
+            data: doc[0],
+            users: true
           })
         }
       })
