@@ -7,65 +7,8 @@ const DB = require('../db');
 const testKey = "e6942459";
 const testSecret = "uCs1TfULvpAQjVEp";
 
+const { findit, insert, update } = require('../db');
 
-//  var db  = DB;
-
-const mongo = require('mongodb').MongoClient;
-const urlTest = "mongodb://localhost:27017" || 'mongodb+srv://nii:0277427898@taxi-lvqnv.mongodb.net/taxi?retryWrites=true&w=majority';
-
-// const db = mongo.connect(urlTest, (err, client) => {
-//     if (err) {
-//       console.error(err)
-//       return
-//     }
-//     //...
-//     console.log('db connected');
-
-//     return client;
-    
-    
-//   })
-
-
-
-function findit (name, query, cb) {
-  mongo.connect(urlTest, (err, client) => {
-    var db = client.db('taxi');
-    if(err){
-      return cb("err", null);
-    }
-    const coll = db.collection(name);
-    coll.find(query).toArray(cb);
-    client.close();
-  })
-  
-}
-
-function insert (name,data,cb){
-  mongo.connect(urlTest, (err, client) => {
-    var db = client.db('taxi');
-    if(err){
-      return cb("err", null);
-    }
-    const coll = db.collection(name);
-    coll.insertOne(data,cb);
-    client.close();
-  })
-  
-}
-
-function update(name,cond, data, cb){
-  mongo.connect(urlTest, (err, client) => {
-    var db = client.db('taxi');
-    if(err){
-      return cb("err", null);
-    }
-    const coll = db.collection(name);
-  coll.updateOne({phone: cond}, {'$set': data},cb);
-    client.close();
-  })
-  
-}
 
 router.post('/login', function (req, res) {
   var data = req.body;
@@ -109,7 +52,6 @@ router.post('/verify', function (req, res) {
   }
   axios.get('https://api.nexmo.com/verify/check/json', {params:s})
   .then(function (response) {
-    console.log(response.data);
     if(response.data.status == "0"){
       findit('users',{phone: data.phone}, (err,doc)=>{
         

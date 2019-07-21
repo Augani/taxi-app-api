@@ -6,17 +6,11 @@ const Fares  = require('../models/fare');
 const googleMapsClient = require('@google/maps').createClient({
     key: "AIzaSyAzb_EziNyxtjF5QChY7QVsvTXdpNoJBmI"
   });
-  const mongo = require('mongodb').MongoClient;
-var db = DB;
+  const { findit, insert, update } = require('../db');
 
 
 
-
-  function find (name, query, cb) {
-    const coll = db.collection(name);
-    coll.find(query).toArray(cb)
-}
-
+ 
 // Home page route.
 router.post('/autocomp', function (req, res) {
   var data = req.body;

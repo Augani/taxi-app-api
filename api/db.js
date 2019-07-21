@@ -1,43 +1,47 @@
-
-// const mongoose = require('mongoose');
-// const connectionString = 'mongodb+srv://nii:0277427898@taxi-lvqnv.mongodb.net/taxi?retryWrites=true&w=majority'
-// //  const connectionString = 'mongodb://localhost:27017/taxi';
-// const Connector = mongoose.connect(connectionString,{useNewUrlParser: true});
-// Connector.then(r=>{
-//   console.log('connected');
-// }).catch(e=>{
-//   console.log(e);
-// })
-// var mongoose = require("mongoose");
-// mongoose.connect('mongodb+srv://nii:0277427898@taxi-lvqnv.mongodb.net/taxi?retryWrites=true&w=majority');
-
-// var connection = mongoose.connection;
-
-// // connection.on('error', console.error.bind(console, 'connection error:'));
-// connection.on('open', function(){
-//     console.log("connected");
-// })
-
-// module.exports = connection;
-
 const mongo = require('mongodb').MongoClient;
-const urlTest = "mongodb://localhost:27017/taxi";
+const urlTest = "mongodb://localhost:27017";
+const stagingurl = "'mongodb+srv://nii:0277427898@taxi-lvqnv.mongodb.net/taxi?retryWrites=true&w=majority'";
 
-const DB = mongo.connect(urlTest, (err, client) => {
-    if (err) {
-      console.error(err)
-      return
-    }
-    //...
-    console.log('db connected');
 
-    return client;
-    
-    
-  })
+exports.findit = (name, query, cb)=>{
+    mongo.connect(stagingurl, (err, client) => {
+        var db = client.db('taxi');
+        if (err) {
+            return cb("err", null);
+        }
+        const coll = db.collection(name);
+        coll.find(query).toArray(cb);
+        client.close();
+    });
 
-  
+}
 
- 
+exports.insert = (name, data, cb)=> {
+    mongo.connect(stagingurl, (err, client) => {
+        var db = client.db('taxi');
+        if (err) {
+            return cb("err", null);
+        }
+        const coll = db.collection(name);
+        coll.insertOne(data, cb);
+        client.close();
+    });
 
-  module.exports = DB;
+}
+
+exports.update = (name, cond, data, cb)=> {
+    mongo.connect(stagingurl, (err, client) => {
+        var db = client.db('taxi');
+        if (err) {
+            return cb("err", null);
+        }
+        const coll = db.collection(name);
+        coll.updateOne({
+            phone: cond
+        }, {
+            '$set': data
+        }, cb);
+        client.close();
+    })
+
+}

@@ -6,18 +6,11 @@ const Fares  = require('../models/fare');
 const googleMapsClient = require('@google/maps').createClient({
     key: "AIzaSyAzb_EziNyxtjF5QChY7QVsvTXdpNoJBmI"
   });
+  const { findit, insert, update } = require('../db');
 
-
-var db = DB;
-
-
-  function find (name, query, cb) {
-    const coll = db.collection(name);
-    coll.find(query).toArray(cb)
-}
 
 router.get('/getdrivers', (req,res)=>{
-    find('users', {userType: 2}, (err,doc)=>{
+    findit('users', {userType: 2}, (err,doc)=>{
         if(doc){
             res.json({
                 code: 200,
@@ -34,7 +27,7 @@ router.get('/getdrivers', (req,res)=>{
 })
 
 router.get('/getriders', (req,res)=>{
-    find('users', {userType: 1}, (err,doc)=>{
+    findit('users', {userType: 1}, (err,doc)=>{
         if(doc){
             res.json({
                 code: 200,
@@ -51,7 +44,7 @@ router.get('/getriders', (req,res)=>{
 })
 
 router.get('/getrides', (req,res)=>{
-    find('rides',{}, (err,doc)=>{
+    findit('rides',{}, (err,doc)=>{
         if(doc){
             res.json({
                 code: 200,
@@ -68,7 +61,7 @@ router.get('/getrides', (req,res)=>{
 })
 
 router.get('/getOngoingRides', (req,res)=>{
-    find('rides', {enroute: true}, (err,doc)=>{
+    findit('rides', {enroute: true}, (err,doc)=>{
         if(doc){
             res.json({
                 code: 200,
@@ -85,7 +78,7 @@ router.get('/getOngoingRides', (req,res)=>{
 });
 
 router.get('/getdriverapps', (req,res)=>{
-    find('users', {userType: 2, approved: false}, (err,doc)=>{
+    findit('users', {userType: 2, approved: false}, (err,doc)=>{
         if(doc){
             res.json({
                 code: 200,
@@ -102,7 +95,7 @@ router.get('/getdriverapps', (req,res)=>{
 })
 
 router.post('/approvedriver', (req,res)=>{
-    find('users', {userType: 2, approved: true}, (err,doc)=>{
+    findit('users', {userType: 2, approved: true}, (err,doc)=>{
         if(doc){
             res.json({
                 code: 200,
@@ -120,7 +113,7 @@ router.post('/approvedriver', (req,res)=>{
 
 router.get('/getdriver/:id', (req,res)=>{
     var id = req.params.id;
-    find('users', {userType: 2, _id: id}, (err,doc)=>{
+    findit('users', {userType: 2, _id: id}, (err,doc)=>{
         if(doc){
             res.json({
                 code: 200,
@@ -138,7 +131,7 @@ router.get('/getdriver/:id', (req,res)=>{
 
 router.get('/getrider/:id', (req,res)=>{
     var id = req.params.id;
-    find('users', {userType: 1, _id: id}, (err,doc)=>{
+    findit('users', {userType: 1, _id: id}, (err,doc)=>{
         if(doc){
             res.json({
                 code: 200,
@@ -157,7 +150,7 @@ router.get('/getrider/:id', (req,res)=>{
 
 router.get('/getrides/:id', (req,res)=>{
     var id = req.params.id;
-    find('rides', {_id: id}, (err,doc)=>{
+    findit('rides', {_id: id}, (err,doc)=>{
         if(doc){
             res.json({
                 code: 200,
@@ -175,7 +168,7 @@ router.get('/getrides/:id', (req,res)=>{
 
 router.get('/getriders/:region', (req,res)=>{
     var region = req.params.region;
-    find('users', {userType: 1, region: region}, (err,doc)=>{
+    findit('users', {userType: 1, region: region}, (err,doc)=>{
         if(doc){
             res.json({
                 code: 200,
@@ -192,10 +185,10 @@ router.get('/getriders/:region', (req,res)=>{
 })
 
 router.get('/getUsers', (req,res)=>{
-    find('users', {}, (err,doc)=>{
+    findit('users', {}, (err,doc)=>{
         if(doc){
-            var riders = doc.find(function (obj) { return obj.userType === 1; });
-            var drivers = doc.find(function (obj) { return obj.userType === 2; });
+            var riders = doc.findit(function (obj) { return obj.userType === 1; });
+            var drivers = doc.findit(function (obj) { return obj.userType === 2; });
             
             res.json({
                 code: 200,
