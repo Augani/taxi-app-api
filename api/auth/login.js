@@ -26,11 +26,10 @@ router.post('/login', function (req, res) {
     r = response;
   })
   .catch(function (error) {
-    // res.json({
-    //   code: 201,
-    //   error: error
-    // })
+   
   }).then(()=>{
+
+   
     res.json({
       code: 200,
       data: r.data
@@ -52,6 +51,7 @@ router.post('/verify', function (req, res) {
   }
   axios.get('https://api.nexmo.com/verify/check/json', {params:s})
   .then(function (response) {
+    console.log(response.data);
     if(response.data.status == "0"){
       findit('users',{phone: data.phone}, (err,doc)=>{
         
@@ -65,7 +65,8 @@ router.post('/verify', function (req, res) {
             }else{
               res.json({
                 code: 205,
-                data: doc
+                data: doc,
+                users: true
               })
             }
           })
