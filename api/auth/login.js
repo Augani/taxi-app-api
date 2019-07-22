@@ -17,7 +17,7 @@ router.post('/login', function (req, res) {
     api_secret: secret,
     number: data.phone,
     brand: "bcTaxi",
-    country: "US",
+    country: "CA",
     code_length: 4
   }
   var r;
@@ -41,7 +41,6 @@ router.post('/login', function (req, res) {
 
 router.post('/verify', function (req, res) {
   var data = req.body;
-  console.log(data);
   var s = {
     api_key: key,
     api_secret: secret,

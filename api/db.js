@@ -13,7 +13,6 @@ exports.findit = (name, query, cb)=>{
         coll.find(query).toArray(cb);
         client.close();
     });
-
 }
 
 exports.insert = (name, data, cb)=> {
@@ -26,8 +25,7 @@ exports.insert = (name, data, cb)=> {
         coll.insertOne(data, cb);
         client.close();
     });
-
-}
+};
 
 exports.update = (name, cond, data, cb)=> {
     mongo.connect(stagingurl, (err, client) => {
@@ -42,6 +40,5 @@ exports.update = (name, cond, data, cb)=> {
             '$set': data
         }, cb);
         client.close();
-    })
-
-}
+    });
+};
