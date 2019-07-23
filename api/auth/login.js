@@ -9,8 +9,8 @@ const testSecret = "uCs1TfULvpAQjVEp";
 const Nexmo = require('nexmo');
 
 const nexmo = new Nexmo({
-  apiKey: '489e85b1',
-  apiSecret: '6TT9fwQPuD3sA8tx',
+  apiKey: 'e6942459',
+  apiSecret: 'uCs1TfULvpAQjVEp',
 });
 
 const { findit, insert, update } = require('../db');
