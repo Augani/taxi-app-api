@@ -1,6 +1,6 @@
 const mongo = require('mongodb').MongoClient;
 const urlTest = "mongodb://localhost:27017";
-const stagingurl = "'mongodb+srv://niiy:0277427898@taxi-lvqnv.mongodb.net/taxi?retryWrites=true&w=majority'";
+const stagingurl = "mongodb+srv://nii:0277427898@taxi-lvqnv.mongodb.net/taxi?retryWrites=true&w=majority";
 
 
 var theDb = null;
