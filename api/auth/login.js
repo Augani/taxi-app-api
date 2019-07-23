@@ -6,6 +6,12 @@ const key = "489e85b1";
 const DB = require('../db');
 const testKey = "e6942459";
 const testSecret = "uCs1TfULvpAQjVEp";
+const Nexmo = require('nexmo');
+
+const nexmo = new Nexmo({
+  apiKey: '489e85b1',
+  apiSecret: '6TT9fwQPuD3sA8tx',
+});
 
 const { findit, insert, update } = require('../db');
 
@@ -20,77 +26,81 @@ router.post('/login', function (req, res) {
     country: "CA",
     code_length: 4
   }
-  var r;
-  axios.get('https://api.nexmo.com/verify/json', {params:s})
-  .then(function (response) {
-    r = response;
-  })
-  .catch(function (error) {
-   
-  }).then(()=>{
 
-   
-    res.json({
-      code: 200,
-      data: r.data
-    })
+  var code = getRandom(4);
+  const from = 'BcTaxi';
+  const to = "1"+data.phone;
+  const text = "Your verification code to login is " +code;
+
+  nexmo.message.sendSms(from, to, text);
+
+  insert('codeverify', {
+    phone: data.phone,
+    code: code,
+    verified: false
+  }, (err,doc)=>{
+    if(err){
+      console.log(err);
+      res.json({
+        error: err
+      });
+    }
+
+    if(doc){
+      res.json({
+        code: 200,
+        data: doc,
+        message: "Success"
+      });
+    }
   })
+  
 })
+
+function getRandom(length) {
+
+  return Math.floor(Math.pow(10, length-1) + Math.random() * 9 * Math.pow(10, length-1));
+  
+  }
 
 
 
 router.post('/verify', function (req, res) {
   var data = req.body;
-  var s = {
-    api_key: key,
-    api_secret: secret,
-    request_id: data.id,
-    code: data.code
-   
-    
-  }
-  axios.get('https://api.nexmo.com/verify/check/json', {params:s})
-  .then(function (response) {
-    if(response.data.price){
-      findit('users',{phone: req.body.phone}, (err,doc)=>{
-        if(!doc[0].phone){
-          insert('users', {phone: req.body.phone}, (err,data)=>{
-            console.log(data);
-            if(data){
-              res.json({
-                code: 200,
-                data: data
-              })
-            }else{
-             
-            }
-          })
-        }else{
-          res.json({
-            code: 205,
-            data: doc[0],
-            users: true
-          })
-        }
-      })
 
-    }else if(response.data.status == "6"){
+  findit('codeverify', {phone: data.phone}, (err,doc)=>{
+    if(err){
       res.json({
-        code: 203,
-        data: "Number already verified"
-      })
-    }else{
-      res.json({
-        code: 203,
-        data: "Wrong code"
+        error: err
       })
     }
-   
-  
+
+    if(doc){
+     
+     var code = doc[0].code;
+     if(code === data.code){
+       update('codeverify', {phone: data.phone}, {verified: true}, (err, doc)=>{
+        if(err){
+          res.json({
+            error: err
+          });
+        }
+        
+        if(doc){
+          res.json({
+            code: 200,
+            data: doc
+          });
+        }
+       });
+     }else{
+       res.json({
+         error: "Wrong code"
+       });
+     }
+    }
   })
-  .catch(function (error) {
-   
-  });
+  
 })
 
 

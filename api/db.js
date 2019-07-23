@@ -35,7 +35,7 @@ exports.update = (name, cond, data, cb)=> {
         }
         const coll = db.collection(name);
         coll.updateOne({
-            phone: cond
+           cond
         }, {
             '$set': data
         }, cb);
