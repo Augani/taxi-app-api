@@ -5,6 +5,9 @@ var server = app.listen(PORt);
 var io = require('socket.io').listen(server);
 const bodyParser = require('body-parser');
 
+const Db = require('./api/db');
+
+Db.initMain();
 // support parsing of application/json type post data
 app.use(bodyParser.json());
 
