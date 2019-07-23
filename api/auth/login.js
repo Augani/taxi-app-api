@@ -29,7 +29,7 @@ router.post('/login', function (req, res) {
 
   var code = getRandom(4);
   const from = 'BcTaxi';
-  const to = "1"+data.phone;
+  const to = "233"+data.phone;
   const text = "Your verification code to login is " +code;
 
   nexmo.message.sendSms(from, to, text);
