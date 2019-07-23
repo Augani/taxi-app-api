@@ -6,7 +6,7 @@ const stagingurl = "'mongodb+srv://niiy:0277427898@taxi-lvqnv.mongodb.net/taxi?r
 var theDb = null;
 
 exports.initMain = function(){
-    mongo.connect(urlTest, (err, client)=>{
+    mongo.connect(stagingurl, (err, client)=>{
         console.log(err,client);
         theDb =  client.db('taxi');
         console.log('connected');
