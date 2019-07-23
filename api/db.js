@@ -7,6 +7,7 @@ var theDb = null;
 
 exports.initMain = function(){
     mongo.connect(urlTest, (err, client)=>{
+        console.log(err,client);
         theDb =  client.db('taxi');
         console.log('connected');
     });
