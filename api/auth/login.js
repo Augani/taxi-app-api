@@ -78,8 +78,8 @@ router.post('/verify', function (req, res) {
     if(doc){
      
      var code = doc[0].code;
-     if(code === data.code){
-       update('codeverify', {phone: data.phone}, {verified: true}, (err, doc)=>{
+     if(code == data.code){
+       update('codeverify', {_id: data.id}, {verified: true}, (err, doc)=>{
         if(err){
           res.json({
             error: err
